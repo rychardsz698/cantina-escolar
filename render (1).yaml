@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: ifood
+    runtime: node
+    plan: free
+    region: ohio
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: SEED_DEMO
+        value: "1"
+      - key: ADMIN_SENHA
+        sync: false
