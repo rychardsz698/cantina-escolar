@@ -1996,6 +1996,26 @@
       font-size: 0.85rem;
     }
 
+
+    .admin-catalog-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.25rem;
+    }
+    .admin-catalog-filters {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+    .admin-catalog-filters button.active {
+      background: var(--primary-light);
+      color: var(--primary);
+      border-color: var(--primary-border);
+    }
+
     /* Responsive adjustments */
     @media (max-width: 768px) {
       .landing-hero h1 {
@@ -2278,19 +2298,96 @@
       }
 
       .admin-products-table-card {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
+        overflow: visible;
       }
 
-      .admin-table {
-        min-width: 650px;
-        font-size: 0.82rem;
+      .admin-catalog-toolbar {
+        align-items: flex-start;
+        flex-direction: column;
       }
 
-      .admin-table th,
+      .admin-catalog-filters {
+        width: 100%;
+      }
+
+      .admin-catalog-filters button {
+        flex: 1 1 auto;
+      }
+
+      .admin-table,
+      .admin-table tbody,
+      .admin-table tr,
       .admin-table td {
-        padding: 0.7rem;
-        white-space: nowrap;
+        display: block;
+        width: 100%;
+        min-width: 0;
+      }
+
+      .admin-table thead {
+        display: none;
+      }
+
+      .admin-table tbody {
+        display: grid;
+        gap: 0.8rem;
+      }
+
+      .admin-table tr {
+        padding: 0.75rem;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: #fff;
+      }
+
+      .admin-table td {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        padding: 0.55rem 0;
+        white-space: normal;
+        text-align: right;
+        border-bottom: 1px solid var(--border-subtle);
+      }
+
+      .admin-table td::before {
+        content: attr(data-label);
+        color: var(--text-muted);
+        font-size: 0.72rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        text-align: left;
+        flex: 0 0 auto;
+      }
+
+      .admin-table td:first-child {
+        display: block;
+        text-align: left;
+        padding-top: 0;
+      }
+
+      .admin-table td:first-child::before {
+        display: block;
+        margin-bottom: 0.55rem;
+      }
+
+      .admin-table td:last-child {
+        border-bottom: 0;
+        padding-bottom: 0;
+      }
+
+      .table-prod-info {
+        gap: 0.65rem;
+        min-width: 0;
+      }
+
+      .table-prod-info > div {
+        min-width: 0;
+        overflow-wrap: anywhere;
+      }
+
+      .admin-table td:last-child > div {
+        display: flex !important;
       }
 
       .checkbox-group {
@@ -2753,9 +2850,14 @@
 
           <!-- Tabela de Produtos Cadastrados -->
           <div class="admin-products-table-card">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
-              <h3 style="font-size: 1.1rem; font-weight: 800;">Catálogo de Itens Ativos</h3>
+            <div class="admin-catalog-toolbar">
+              <h3 style="font-size: 1.1rem; font-weight: 800; margin: 0;">Catálogo de Produtos</h3>
+              <div class="admin-catalog-filters" role="group" aria-label="Filtrar produtos">
+                <button type="button" class="btn btn-outline btn-sm active" data-product-filter="all" onclick="app.setAdminProductFilter('all', this)">Todos</button>
+                <button type="button" class="btn btn-outline btn-sm" data-product-filter="active" onclick="app.setAdminProductFilter('active', this)">Ativos</button>
+                <button type="button" class="btn btn-outline btn-sm" data-product-filter="paused" onclick="app.setAdminProductFilter('paused', this)">Pausados</button>
               </div>
+            </div>
 
             <table class="admin-table">
               <thead>
@@ -2997,6 +3099,7 @@
       state: {
         currentUser: null,        // { name, className, balance: 50.00, role: 'student' | 'admin' }
         currentCategory: 'all',
+        adminProductFilter: 'all',
         activeDietaryFilters: {
           glutenFree: false,
           lactoseFree: false,
@@ -3095,7 +3198,7 @@
           btnOpenCart.style.display = 'none';
         } else if (viewName === 'student') {
           btnNavMenu.style.display = 'none';
-          btnNavAdmin.style.display = 'inline-flex';
+          btnNavAdmin.style.display = 'none';
           btnOpenCart.style.display = 'inline-flex';
           this.checkActiveOrderButton();
           this.updateBalanceDisplays();
@@ -3697,13 +3800,25 @@
         if (window.lucide) lucide.createIcons();
       },
 
+      setAdminProductFilter(filter, button) {
+        this.state.adminProductFilter = filter;
+        document.querySelectorAll('[data-product-filter]').forEach(el => el.classList.toggle('active', el === button));
+        this.renderAdminProductsTable();
+      },
+
       renderAdminProductsTable() {
         const tbody = document.getElementById('adminProductsTableBody');
         if (!tbody) return;
+        const filter = this.state.adminProductFilter || 'all';
+        const visibleProducts = this.state.products.filter(p => filter === 'all' || (filter === 'active' ? p.active : !p.active));
+        if (!visibleProducts.length) {
+          tbody.innerHTML = `<tr><td colspan="6" style="padding: 1.25rem; text-align: center; color: var(--text-muted);">Nenhum produto ${filter === 'active' ? 'ativo' : filter === 'paused' ? 'pausado' : 'cadastrado'} encontrado.</td></tr>`;
+          return;
+        }
 
-        tbody.innerHTML = this.state.products.map(p => `
+        tbody.innerHTML = visibleProducts.map(p => `
           <tr>
-            <td>
+            <td data-label="Produto">
               <div class="table-prod-info">
                 <img src="${esc(p.image)}" alt="${esc(p.name)}" class="table-prod-img">
                 <div>
@@ -3712,21 +3827,21 @@
                 </div>
               </div>
             </td>
-            <td><span class="brand-pill" style="margin-left: 0;">${esc(p.category)}</span></td>
-            <td><strong>R$ ${p.price.toFixed(2).replace('.', ',')}</strong></td>
-            <td>
+            <td data-label="Categoria"><span class="brand-pill" style="margin-left: 0;">${esc(p.category)}</span></td>
+            <td data-label="Preço"><strong>R$ ${p.price.toFixed(2).replace('.', ',')}</strong></td>
+            <td data-label="Estoque">
               <div style="display: flex; align-items: center; gap: 0.4rem;">
                 <button class="btn btn-outline btn-sm" style="padding: 0.15rem 0.45rem;" onclick="app.adjustStock(${p.id}, -1)">-</button>
                 <span style="font-weight: 700; min-width: 24px; text-align: center;">${p.stock}</span>
                 <button class="btn btn-outline btn-sm" style="padding: 0.15rem 0.45rem;" onclick="app.adjustStock(${p.id}, 1)">+</button>
               </div>
             </td>
-            <td>
+            <td data-label="Status">
               <span class="status-badge ${p.active ? 'active' : 'paused'}">
                 ${p.active ? '● Ativo' : '○ Pausado'}
               </span>
             </td>
-            <td style="text-align: right;">
+            <td data-label="Ações" style="text-align: right;">
               <div style="display: inline-flex; gap: 0.35rem;">
                 <button class="btn btn-outline btn-sm" onclick="app.toggleProductStatus(${p.id})" title="${p.active ? 'Pausar venda' : 'Ativar venda'}">
                   <i data-lucide="${p.active ? 'pause' : 'play'}" style="width: 14px; height: 14px;"></i>
