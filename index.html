@@ -1995,34 +1995,6 @@
 
     /* Responsive adjustments */
     @media (max-width: 768px) {
-      /* No celular, o selo Acesso Aluno fica no fluxo normal para não
-         sobrepor o título nem o nome da área de login. */
-      .portal-card {
-        padding: 1.25rem;
-      }
-
-      .portal-card-tag {
-        position: static;
-        display: inline-flex;
-        align-items: center;
-        margin: 0 0 1rem 0;
-        max-width: 100%;
-      }
-
-      .portal-card-header {
-        align-items: flex-start;
-        gap: 0.75rem;
-      }
-
-      .portal-card-title {
-        line-height: 1.3;
-        overflow-wrap: anywhere;
-      }
-
-      .portal-card-desc {
-        line-height: 1.45;
-      }
-
       .landing-hero h1 {
         font-size: 1.85rem;
       }
@@ -2085,9 +2057,8 @@
         </button>
 
         <!-- Botão Acesso Administrativo -->
-        <button id="btnNavAdmin" class="btn btn-outline btn-sm" onclick="app.navigate('admin')">
-          <i data-lucide="shield" style="width: 16px; height: 16px;"></i>
-          <span>Área Cantina</span>
+        <button id="btnNavAdmin" class="btn-icon" onclick="app.navigate('adminLogin')" title="Acesso administrativo" aria-label="Acesso administrativo">
+          <i data-lucide="shield" style="width: 20px; height: 20px;"></i>
         </button>
 
         <!-- Botão Abrir Carrinho Lateral -->
@@ -2162,6 +2133,36 @@
         </div>
 
 
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       ACESSO ADMINISTRATIVO (PÁGINA SEPARADA COM SENHA)
+       ======================================================================== -->
+  <section id="viewAdminLogin" class="view-section">
+    <div class="landing-wrapper" style="max-width: 520px; margin: 0 auto;">
+      <div class="portal-card" style="width: 100%;">
+        <div class="portal-card-header">
+          <div class="portal-icon-box admin-icon">
+            <i data-lucide="shield-check" style="width: 24px; height: 24px;"></i>
+          </div>
+          <div>
+            <h2 class="portal-card-title">Acesso Administrativo</h2>
+            <p class="portal-card-desc">Área exclusiva do administrador da cantina</p>
+          </div>
+        </div>
+        <form id="adminLoginForm" onsubmit="app.handleAdminLogin(event)">
+          <div class="form-group">
+            <label class="form-label" for="inputAdminPassword">Senha de Administrador</label>
+            <input type="password" id="inputAdminPassword" class="form-control" placeholder="Digite a senha" required autocomplete="current-password">
+          </div>
+          <button type="submit" class="btn btn-primary btn-full btn-lg">
+            <i data-lucide="lock" style="width: 16px; height: 16px;"></i>
+            <span>Acessar painel</span>
+          </button>
+          <button type="button" class="btn btn-outline btn-full" style="margin-top: 0.75rem;" onclick="app.navigate('landing')">Voltar</button>
+        </form>
       </div>
     </div>
   </section>
@@ -2776,10 +2777,13 @@
       navigate(viewName) {
         document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
 
-        const targetView = document.getElementById(
-          viewName === 'landing' ? 'viewLanding' :
-            viewName === 'student' ? 'viewStudent' : 'viewAdmin'
-        );
+        const targetIds = {
+          landing: 'viewLanding',
+          student: 'viewStudent',
+          adminLogin: 'viewAdminLogin',
+          admin: 'viewAdmin'
+        };
+        const targetView = document.getElementById(targetIds[viewName] || 'viewLanding');
 
         if (targetView) {
           targetView.classList.add('active');
@@ -2792,7 +2796,7 @@
 
         if (viewName === 'landing') {
           btnNavMenu.style.display = 'none';
-          btnNavAdmin.style.display = 'none';
+          btnNavAdmin.style.display = 'inline-flex';
           btnOpenCart.style.display = 'none';
         } else if (viewName === 'student') {
           btnNavMenu.style.display = 'none';
@@ -2800,6 +2804,12 @@
           btnOpenCart.style.display = 'inline-flex';
           this.checkActiveOrderButton();
           this.updateBalanceDisplays();
+        } else if (viewName === 'adminLogin') {
+          btnNavMenu.style.display = 'none';
+          btnNavAdmin.style.display = 'inline-flex';
+          btnOpenCart.style.display = 'none';
+          const adminPassword = document.getElementById('inputAdminPassword');
+          if (adminPassword) adminPassword.value = '';
         } else if (viewName === 'admin') {
           btnNavMenu.style.display = 'inline-flex';
           btnNavAdmin.style.display = 'none';
