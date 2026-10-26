@@ -18,8 +18,6 @@
   <script src="https://unpkg.com/lucide@latest"></script>
   <!-- Canvas Confetti CDN -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
-  <!-- QRCode.js CDN -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
   <style>
     /* ==========================================================================
@@ -2022,91 +2020,6 @@
         grid-template-columns: 1fr;
       }
     }
-  
-
-    /* Ajustes responsivos para celular */
-    html, body { width: 100%; max-width: 100%; overflow-x: clip; }
-    img, input, select, textarea, button { max-width: 100%; }
-    .header-container, .container { width: 100%; min-width: 0; }
-    .portal-card, .product-card, .kpi-card, .admin-form-card,
-    .admin-products-table-card, .kanban-col { min-width: 0; }
-    .products-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); }
-    .category-pills { flex-wrap: wrap; overflow-x: visible; }
-    .category-pill { white-space: normal; }
-    .admin-products-table-card { max-width: 100%; }
-    .admin-table { min-width: 0; }
-    .admin-table th, .admin-table td { overflow-wrap: anywhere; }
-
-    /* Na tela inicial, não exibir os atalhos superiores de área administrativa,
-       cardápio e carrinho; eles continuam disponíveis nas telas internas. */
-    body:has(#viewLanding.active) .header-actions { display: none !important; }
-
-    @media (max-width: 600px) {
-      .header-container { padding: .65rem .85rem; gap: .5rem; flex-wrap: wrap; }
-      .brand-logo { font-size: 1.45rem; flex-wrap: wrap; }
-      .brand-pill { font-size: .55rem; margin-left: 3px; }
-      .header-user-badge { max-width: 100%; flex-wrap: wrap; gap: .4rem; padding: .35rem .6rem; }
-      .container { padding: 1rem .8rem; }
-      .landing-wrapper { min-height: auto; padding: 2rem .8rem; }
-      .landing-hero { margin-bottom: 1.5rem; }
-      .landing-hero h1 { font-size: clamp(1.65rem, 7vw, 2.15rem); overflow-wrap: anywhere; }
-      .landing-hero h1 br { display: none; }
-      .landing-hero p { font-size: .95rem; }
-      .hero-badge { font-size: .75rem; padding: .35rem .7rem; }
-      .portal-cards-grid { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
-      .portal-card { padding: 1.25rem; border-radius: 18px; }
-      .portal-card-tag { top: .8rem; right: .8rem; font-size: .65rem; }
-      .portal-card-header { gap: .7rem; align-items: flex-start; }
-      .portal-card-title { font-size: 1.05rem; }
-      .portal-card-desc { font-size: .78rem; }
-      .menu-header-bar { padding: 1.15rem; flex-direction: column; align-items: stretch; }
-      .greeting-title { font-size: 1.35rem; }
-      .greeting-sub { font-size: .82rem; }
-      .student-wallet-card { width: 100%; flex-wrap: wrap; gap: .65rem; padding: .8rem; }
-      .wallet-amount { font-size: 1.2rem; }
-      .btn-recharge { margin-left: auto; }
-      .controls-wrapper { gap: .8rem; margin-bottom: 1.25rem; }
-      .search-input { font-size: 16px; }
-      .category-pills { gap: .45rem; }
-      .category-pill { padding: .5rem .75rem; font-size: .78rem; }
-      .dietary-filters { padding: .65rem; }
-      .products-grid { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
-      .product-img-wrapper { height: 165px; }
-      .product-body { padding: 1rem; }
-      .product-footer { flex-wrap: wrap; }
-      .btn-add-cart { flex: 1; justify-content: center; }
-      .admin-header-bar { align-items: flex-start; }
-      .admin-title-area h2 { font-size: 1.4rem; }
-      .kpi-grid { grid-template-columns: minmax(0, 1fr); gap: .8rem; }
-      .kpi-card { padding: 1rem; }
-      .admin-nav-tabs { max-width: 100%; flex-wrap: wrap; }
-      .admin-tab { padding: .65rem .8rem; font-size: .82rem; }
-      .kanban-board { grid-template-columns: minmax(0, 1fr); }
-      .menu-management-layout { grid-template-columns: minmax(0, 1fr); }
-      .admin-form-card, .admin-products-table-card { padding: 1rem; }
-      .admin-products-table-card { overflow-x: auto; }
-      .admin-table { width: 100%; font-size: .72rem; }
-      .admin-table th, .admin-table td { padding: .55rem .35rem; }
-      .table-prod-info { gap: .35rem; flex-wrap: wrap; }
-      .table-prod-img { width: 32px; height: 32px; }
-      .recharge-presets { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .receipt-modal { max-height: 90dvh; overflow-y: auto; }
-      .receipt-body { padding: 1rem; }
-      .cart-drawer { width: 100%; max-width: 100%; }
-      .cart-content, .cart-header, .cart-footer { padding-left: 1rem; padding-right: 1rem; }
-      .cart-item { gap: .6rem; flex-wrap: wrap; }
-      .cart-item-info { min-width: 0; }
-      .pickup-grid, .payment-options { grid-template-columns: minmax(0, 1fr); }
-    }
-
-    @media (max-width: 360px) {
-      .brand-logo { font-size: 1.25rem; }
-      .portal-card { padding: 1rem; }
-      .portal-card-tag { position: static; display: inline-block; margin-bottom: .8rem; }
-      .portal-card-header { flex-wrap: wrap; }
-      .btn { white-space: normal; }
-    }
-
   </style>
 </head>
 
@@ -2163,14 +2076,11 @@
        ======================================================================== -->
   <section id="viewLanding" class="view-section active">
     <div class="landing-wrapper">
-      <div class="landing-hero">
-        <div class="hero-badge">
-          <i data-lucide="sparkles" style="width: 16px; height: 16px;"></i>
-          <span>Cantina Escolar Inteligente</span>
-        </div>
+      <div class="landing-hero">     
+    
+
         <h1>Seu lanche no recreio <br>sem fila e no horário com o <span class="highlight">IFood</span></h1>
-        <p>A cantina oficial do Instituto Federal. Escolha seus produtos favoritos, use seu saldo estudantil ou pague no
-          PIX e apresente seu QR Code no balcão.</p>
+        <p> Peça seu lanche com rapidez! Retirada no local e pagamento via PIX ou dinheiro em espécie.</p>
       </div>
 
       <div class="portal-cards-grid">
@@ -2269,26 +2179,12 @@
             <span>• Peça seu lanche para o recreio sem fila!</span>
             <button id="btnViewActiveOrder" class="active-order-chip-btn" style="display: none;"
               onclick="app.reopenLastOrderModal()">
-              <i data-lucide="qr-code" style="width: 14px; height: 14px;"></i>
-              <span>Ver QR Code</span>
+              <i data-lucide="ticket" style="width: 14px; height: 14px;"></i>
+              <span>Ver código de retirada</span>
             </button>
           </div>
         </div>
 
-        <!-- Card de Saldo Atual do Aluno com Ação Rápida de Recarregar -->
-        <div class="student-wallet-card">
-          <div class="wallet-icon-box">
-            <i data-lucide="wallet" style="width: 22px; height: 22px;"></i>
-          </div>
-          <div class="wallet-details">
-            <span class="wallet-label">Saldo Atual</span>
-            <span class="wallet-amount" id="studentBalanceDisplay">R$ 0,00</span>
-          </div>
-          <button class="btn-recharge" onclick="app.openRechargeModal()" title="Recarregar saldo estudantil">
-            <i data-lucide="plus-circle" style="width: 16px; height: 16px;"></i>
-            <span>Recarregar</span>
-          </button>
-        </div>
       </div>
 
       <!-- Barra de Busca e Filtros -->
@@ -2416,7 +2312,7 @@
         </div>
         <div class="admin-tab" id="tabMenuBtn" onclick="app.switchAdminTab('menu')">
           <i data-lucide="settings" style="width: 18px; height: 18px;"></i>
-          <span>Gestão do Cardápio (CRUD)</span>
+          <span>Gestão do Cardápio </span>
         </div>
       </div>
 
@@ -2636,36 +2532,27 @@
             <span>Forma de Pagamento</span>
           </div>
           <div class="payment-options">
-            <!-- Opção Preferencial: Saldo do Aluno -->
-            <div class="payment-card-opt active" id="optPayBalance"
-              onclick="app.setPaymentMethod('Saldo Estudantil', this)">
-              <div class="payment-opt-left">
-                <i data-lucide="wallet" style="width: 18px; height: 18px; color: var(--primary);"></i>
-                <span>Saldo Estudantil (Preferencial)</span>
-              </div>
-              <span class="balance-badge-inline" id="cartBalanceBadge">R$ 0,00</span>
-            </div>
-
-            <div class="payment-card-opt" onclick="app.setPaymentMethod('PIX', this)">
+            <div class="payment-card-opt active" id="optPayPix"
+              onclick="app.setPaymentMethod('PIX', this)">
               <div class="payment-opt-left">
                 <i data-lucide="qr-code" style="width: 18px; height: 18px;"></i>
-                <span>PIX Instantâneo</span>
+                <span>PIX</span>
               </div>
-              <span style="font-size: 0.75rem; color: var(--text-muted);">QR Code</span>
+              <span style="font-size: 0.75rem; color: var(--text-muted);">Pagamento no balcão</span>
             </div>
-
-            <div class="payment-card-opt" onclick="app.setPaymentMethod('Cartão', this)">
+            <div class="payment-card-opt" id="optPayCash"
+              onclick="app.setPaymentMethod('Espécie', this)">
               <div class="payment-opt-left">
-                <i data-lucide="credit-card" style="width: 18px; height: 18px;"></i>
-                <span>Cartão Crédito / Débito</span>
+                <i data-lucide="banknote" style="width: 18px; height: 18px;"></i>
+                <span>Dinheiro em espécie</span>
               </div>
-              <span style="font-size: 0.75rem; color: var(--text-muted);">Balcão</span>
+              <span style="font-size: 0.75rem; color: var(--text-muted);">Pagamento no balcão</span>
             </div>
           </div>
 
           <!-- Alerta de Saldo Insuficiente -->
           <div id="insufficientBalanceAlert" class="insufficient-balance-msg" style="display: none;">
-            <span>Saldo insuficiente para esta compra!</span>
+            <span>Selecione PIX ou dinheiro em espécie para continuar.</span>
             <button class="btn btn-sm btn-primary" onclick="app.openRechargeModal()">Recarregar</button>
           </div>
         </div>
@@ -2701,61 +2588,6 @@
   </aside>
 
   <!-- ========================================================================
-       MODAL: RECARGA DE SALDO DO ALUNO
-       ======================================================================== -->
-  <div class="modal-overlay" id="rechargeModalOverlay">
-    <div class="receipt-modal">
-      <div class="receipt-header">
-        <div class="receipt-check-icon">
-          <i data-lucide="wallet" style="width: 30px; height: 30px; color: white;"></i>
-        </div>
-        <h3>Recarga de Saldo Estudantil</h3>
-        <p>Adicione créditos à sua carteirinha escolar instantaneamente</p>
-      </div>
-
-      <div class="receipt-body">
-        <div style="width: 100%; text-align: left;">
-          <label class="form-label">Selecione o valor da recarga:</label>
-          <div class="recharge-presets">
-            <div class="preset-pill active" onclick="app.selectRechargePreset(10, this)">R$ 10</div>
-            <div class="preset-pill" onclick="app.selectRechargePreset(20, this)">R$ 20</div>
-            <div class="preset-pill" onclick="app.selectRechargePreset(50, this)">R$ 50</div>
-            <div class="preset-pill" onclick="app.selectRechargePreset(100, this)">R$ 100</div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label" for="rechargeCustomValue">Ou digite outro valor (R$)</label>
-            <input type="number" id="rechargeCustomValue" class="form-control" value="10" min="5" step="5"
-              oninput="app.clearPresetSelection()">
-          </div>
-
-          <div class="form-group" style="margin-bottom: 0;">
-            <label class="form-label">Método de Pagamento da Recarga:</label>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
-              <label class="pickup-radio active" style="font-size: 0.8rem;">
-                <input type="radio" name="rechargeMethod" value="PIX" checked style="display:none;">
-                <span>💠 PIX Instantâneo</span>
-              </label>
-              <label class="pickup-radio" style="font-size: 0.8rem;">
-                <input type="radio" name="rechargeMethod" value="Cartao" style="display:none;">
-                <span>💳 Cartão de Crédito</span>
-              </label>
-            </div>
-          </div>
-        </div>
-
-        <div style="display: flex; gap: 0.75rem; width: 100%; margin-top: 0.5rem;">
-          <button class="btn btn-outline btn-full" onclick="app.closeRechargeModal()">Cancelar</button>
-          <button class="btn btn-primary btn-full" onclick="app.confirmRecharge()">
-            <i data-lucide="check" style="width: 16px; height: 16px;"></i>
-            <span>Confirmar Recarga</span>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========================================================================
        MODAL: COMPROVANTE COM QR CODE INTERATIVO
        ======================================================================== -->
   <div class="modal-overlay" id="receiptModalOverlay">
@@ -2789,12 +2621,11 @@
           </div>
         </div>
 
-        <!-- QR Code do Pedido -->
-        <div class="qr-container">
-          <div id="receiptQrCodeBox" class="qr-image-box">
-            <!-- Gerado dinamicamente -->
-          </div>
-          <span class="qr-hint">Apresente este código no balcão da cantina</span>
+        <!-- Código de retirada do pedido (não é QR Code) -->
+        <div class="qr-container" style="padding: 1.25rem; background: var(--primary-light); border: 1px dashed var(--primary-border); border-radius: var(--radius-lg);">
+          <span style="display:block;font-size:.78rem;font-weight:700;color:var(--text-secondary);margin-bottom:.5rem;">SEU CÓDIGO DE RETIRADA</span>
+          <div id="receiptPickupCode" style="font-family:monospace;font-size:2rem;font-weight:900;letter-spacing:.12em;color:var(--primary);padding:.4rem 0;">IF-000000</div>
+          <span class="qr-hint">Informe este código ao atendente para retirar o pedido.</span>
         </div>
 
         <!-- Detalhes do Pedido -->
@@ -2815,12 +2646,8 @@
             <span>Pagamento:</span>
             <span id="receiptPayment">Saldo Estudantil</span>
           </div>
-          <div class="info-row" id="receiptNewBalanceRow">
-            <span>Saldo Restante:</span>
-            <strong style="color: var(--primary);" id="receiptNewBalance">R$ 0,00</strong>
-          </div>
           <div class="info-row highlight">
-            <span>Valor Total Pago:</span>
+            <span>Valor Total:</span>
             <span id="receiptTotal" style="color: var(--primary); font-size: 1.1rem;">R$ 0,00</span>
           </div>
         </div>
@@ -2856,7 +2683,7 @@
           <span class="if-part">IF</span><span class="ood-part">ood</span>
         </span>
       </div>
-      <p>© 2026 Instituto Federal Food - Cantina Escolar Inteligente. Todos os direitos reservados.</p>
+      <p> © 2026 Instituto Federal Food. Todos os direitos reservados. [Versão Beta / Em Fase de Testes]</p>
       </div>
   </footer>
 
@@ -2882,7 +2709,7 @@
         searchQuery: '',
         cart: [],                 // [{ product, quantity }]
         selectedPickupTime: 'Recreio da Manhã (09:45 - 10:05)',
-        selectedPaymentMethod: 'Saldo Estudantil', // Preferencial conforme prompt
+        selectedPaymentMethod: 'PIX', // Pagamento direto: PIX ou espécie
         products: [],
         orders: [],
         currentActiveOrder: null
@@ -3231,6 +3058,64 @@
         if (window.lucide) lucide.createIcons();
       },
 
+      // Este sistema não usa saldo estudantil nem recargas.
+      checkBalanceSufficiency() {
+        const alert = document.getElementById('insufficientBalanceAlert');
+        if (alert) alert.style.display = 'none';
+        const btn = document.getElementById('btnCheckout');
+        if (btn) btn.disabled = this.state.cart.length === 0;
+      },
+
+      // Finaliza o pedido e cria um código de retirada único no navegador.
+      // Para uso real com vários dispositivos, a validação precisa de um backend.
+      checkoutOrder() {
+        if (!this.state.cart.length) {
+          this.showToast('Adicione produtos ao carrinho antes de finalizar.', 'info');
+          return;
+        }
+        if (!this.state.currentUser) {
+          this.showToast('Entre na conta de aluno antes de fazer o pedido.', 'info');
+          this.toggleCart(false);
+          this.navigate('landing');
+          return;
+        }
+        const total = this.state.cart.reduce((sum, item) => sum + Number(item.product.price) * item.quantity, 0);
+        const bytes = new Uint8Array(4);
+        if (window.crypto && crypto.getRandomValues) crypto.getRandomValues(bytes);
+        else for (let i = 0; i < bytes.length; i++) bytes[i] = Math.floor(Math.random() * 256);
+        const pickupCode = Array.from(bytes, b => b.toString(16).padStart(2, '0')).join('').toUpperCase();
+        const order = {
+          id: 'IF-' + pickupCode,
+          pickupCode,
+          client: this.state.currentUser.name || this.state.currentUser.email || 'Aluno',
+          className: this.state.currentUser.className || 'Não informada',
+          pickupShift: this.state.selectedPickupTime,
+          paymentMethod: this.state.selectedPaymentMethod || 'PIX',
+          paymentStatus: 'pending',
+          total,
+          status: 'received',
+          createdAt: new Date().toISOString(),
+          items: this.state.cart.map(item => ({
+            id: item.product.id,
+            name: item.product.name,
+            price: Number(item.product.price),
+            qty: item.quantity
+          }))
+        };
+        this.state.orders.unshift(order);
+        try { localStorage.setItem('ifood_orders', JSON.stringify(this.state.orders)); } catch (e) {}
+        this.state.cart = [];
+        this.saveCart();
+        this.renderCart();
+        this.toggleCart(false);
+        this.openReceiptModal(order);
+        this.checkActiveOrderButton();
+        if (typeof this.renderKanban === 'function') this.renderKanban();
+        if (typeof this.updateAdminKPIs === 'function') this.updateAdminKPIs();
+        this.triggerCelebration();
+        this.showToast('Pedido registrado! Pague no balcão e informe o código de retirada.', 'check');
+      },
+
       // Toggle do Carrinho Lateral
       toggleCart(open) {
         const drawer = document.getElementById('cartDrawer');
@@ -3278,7 +3163,7 @@
         const activeOrder = this.state.orders.find(o => o.status !== 'delivered');
         if (activeOrder) {
           btn.style.display = 'inline-flex';
-          btn.setAttribute('title', `Ver QR Code do Pedido ${activeOrder.id}`);
+          btn.setAttribute('title', `Ver código de retirada do Pedido ${activeOrder.id}`);
         } else {
           btn.style.display = 'none';
         }
@@ -3304,69 +3189,19 @@
         document.getElementById('receiptPayment').textContent = order.paymentMethod;
         document.getElementById('receiptTotal').textContent = `R$ ${order.total.toFixed(2).replace('.', ',')}`;
 
-        const balanceRow = document.getElementById('receiptNewBalanceRow');
-        const balanceVal = document.getElementById('receiptNewBalance');
-        if (order.paymentMethod === 'Saldo Estudantil' && order.remainingBalance !== undefined) {
-          balanceRow.style.display = 'flex';
-          balanceVal.textContent = `R$ ${order.remainingBalance.toFixed(2).replace('.', ',')}`;
-        } else {
-          balanceRow.style.display = 'none';
-        }
-
         this.updateReceiptStepper(order.status);
 
-        // Gera QR Code
-        const qrBox = document.getElementById('receiptQrCodeBox');
-        qrBox.innerHTML = '';
-
-        const qrDataPayload = `IFOOD:${order.id}|VALOR:${order.total.toFixed(2)}|CLIENTE:${esc(order.client)}|TURMA:${order.className}|RETIRADA:${order.pickupShift}|PAGTO:${order.paymentMethod}`;
-
-        if (window.QRCode) {
-          try {
-            new QRCode(qrBox, {
-              text: qrDataPayload,
-              width: 135,
-              height: 135,
-              colorDark: "#059669",
-              colorLight: "#ffffff",
-              correctLevel: QRCode.CorrectLevel.M
-            });
-          } catch (e) {
-            this.renderSvgQrFallback(qrBox, order.id);
-          }
-        } else {
-          this.renderSvgQrFallback(qrBox, order.id);
-        }
+        // Exibe o código de retirada em texto, sem QR Code.
+        const pickupCodeEl = document.getElementById('receiptPickupCode');
+        if (pickupCodeEl) pickupCodeEl.textContent = order.pickupCode || order.id;
 
         document.getElementById('receiptModalOverlay').classList.add('open');
         if (window.lucide) lucide.createIcons();
       },
 
-      renderSvgQrFallback(qrBox, code) {
-        qrBox.innerHTML = `
-          <svg width="135" height="135" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="100" height="100" fill="#ecfdf5" rx="8"/>
-            <rect x="10" y="10" width="28" height="28" fill="#059669" rx="4"/>
-            <rect x="15" y="15" width="18" height="18" fill="white" rx="2"/>
-            <rect x="19" y="19" width="10" height="10" fill="#059669" rx="1"/>
-            <rect x="62" y="10" width="28" height="28" fill="#059669" rx="4"/>
-            <rect x="67" y="15" width="18" height="18" fill="white" rx="2"/>
-            <rect x="71" y="19" width="10" height="10" fill="#059669" rx="1"/>
-            <rect x="10" y="62" width="28" height="28" fill="#059669" rx="4"/>
-            <rect x="15" y="67" width="18" height="18" fill="white" rx="2"/>
-            <rect x="19" y="71" width="10" height="10" fill="#059669" rx="1"/>
-            <circle cx="50" cy="50" r="7" fill="#10B981"/>
-            <rect x="46" y="24" width="8" height="8" fill="#047857" rx="1"/>
-            <rect x="24" y="46" width="8" height="8" fill="#047857" rx="1"/>
-            <rect x="62" y="62" width="12" height="12" fill="#059669" rx="2"/>
-            <rect x="78" y="78" width="12" height="12" fill="#047857" rx="2"/>
-          </svg>
-        `;
-      },
-
       copyOrderCode() {
         if (!this.state.currentActiveOrder) return;
-        const code = this.state.currentActiveOrder.id;
+        const code = this.state.currentActiveOrder.pickupCode || this.state.currentActiveOrder.id;
         navigator.clipboard.writeText(code).then(() => {
           this.showToast(`Código ${code} copiado para a área de transferência!`, 'check');
         }).catch(() => {
